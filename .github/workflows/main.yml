@@ -1,0 +1,29 @@
+name: Run My Bot
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: # هذا يسمح لك بتشغيله يدوياً بضغطة زر
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install python-telegram-bot
+          # إذا كان لديك ملف requirements.txt استخدم السطر التالي بدلاً من السابق:
+          # pip install -r requirements.txt
+
+      - name: Start Bot
+        env:
+          BOT_TOKEN: ${{ secrets.MY_TOKEN }} # هنا تضع التوكن بشكل آمن لاحقاً
+        run: python main.py
